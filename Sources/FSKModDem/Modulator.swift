@@ -25,8 +25,8 @@ public class Modulator {
     
     for bit in bits {
       for _ in 0..<symbol_length {
-        if bit == 1 { samples += [1.0] }
-        else        { samples += [0.0] }
+        if bit == 1 { samples += [ 1.0] }
+        else        { samples += [-1.0] }
       }
     }
     
