@@ -3,14 +3,21 @@ import Foundation
 
 // FSK Modulator, for the moment only support 48 KHz sample rate
 // which will work nicely with 1200 and 2400 baud, but not e.g. 512
-// I shall fancy this up later
+//
+// this is going to get slightly more sophisticated as we go,
+// but not by all that much, much of the work will be on the
+// audio out side
+
 
 public class Modulator {
 
   let symbol_length : Int
+  let zero_symbol   : Float
+  let one_symbol    : Float
   
-  public init(baud: Int) {
-    self.symbol_length = 48000 / baud
+  public init(baud: Int, inverted : Bool) {
+    symbol_length             = 48000 / baud
+    (one_symbol, zero_symbol) = inverted ? (-1.0, 1.0) : (1.0, -1.0)
   }
   
   
@@ -25,8 +32,8 @@ public class Modulator {
     
     for bit in bits {
       for _ in 0..<symbol_length {
-        if bit == 1 { samples += [ 1.0] }
-        else        { samples += [-1.0] }
+        if bit == 1 { samples += [ one_symbol ] }
+        else        { samples += [ zero_symbol] }
       }
     }
     
